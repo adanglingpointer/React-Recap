@@ -100,3 +100,126 @@ export default function CoreConcept({ concept }) {
 		</li>
 	);
 }
+
+==========
+
+/* Children are always sent as props */
+
+// App.jsx
+<Modal>
+	<h2>Warning</h2>
+	<p>Do you want to delete this file?</p>
+</Modal>
+
+// Modal.jsx
+function Modal(props) {
+	return <div id="modal">{props.children}</div>;
+}
+
+// destructuring
+
+export default function TabButton({children}) {
+	return <li><button>{children}</button></li>;
+}
+
+// alternatively, passing as a prop
+
+// App.jsx
+<TabButton label='Components' />
+
+//TabButton.jsx
+export default function TabButton({ label }) {
+	return (
+		<li>
+			<button>{label}</button>
+		</li>
+	);
+}
+
+==========
+
+/* Passing custom arguments to event functions */
+
+// App.jsx
+function App() {
+	function handleSelect(selectedButton) {
+		console.log(selectedButton);
+	}
+
+	return (
+		<menu>
+			<TabButton onSelect={() => handleSelect('components')}>Components</TabButton>
+		</menu>
+	);
+}
+
+export default App;
+
+// TabButton.jsx
+export default function TabButton({ children, onSelect }) {
+	return (
+		<li>
+			<button onClick={onSelect}>{children}</button>
+		</li>
+	);
+}
+
+==========
+
+/* Fragments */
+
+// first we import
+
+import { Fragment } from 'react';
+
+// then we use
+
+return (
+	<Fragment>
+		<main></main>
+	</Fragment>
+);
+
+// alternatively, we can just use (without importing Fragment):
+
+return (
+	<>
+		<main></main>
+	</>
+);
+
+==========
+
+/* Updating state based on old state */
+
+// the wrong way, this schedules an update but doesn't guarantee latest state
+setIsEditing(!isEditing);
+
+// the correct way, updating based off old state value
+setIsEditing(isEditing => !isEditing);
+
+==========
+
+/* Updating object state immutably */
+
+// in this example, since we are dealing with nested arrays, those should be copied as well before we update
+//  anything.  we can achieve this by calling the map() method on our old state (our old array), so that we've
+//  got our inner arrays.  and for every inner array, we also return a new nested array which spreads the 
+//  elements of that inner array inside of it.
+
+const initialGameBoard = [
+	[null, null, null],
+	[null, null, null],
+	[null, null, null],
+];
+
+export default function GameBoard() {
+	const [gameBoard, setGameBoard] = useState(initialGameBoard);
+
+	function handleSelectSquare(rowIndex, colIndex) {
+		setGameBoard((prevGameBoard) => {
+			const updatedBoard = [...prevGameBoard.map(innerArray => [...innerArray])];
+			updatedBoard[rowIndex][colIndex] = 'X';
+			return updatedBoard;
+		});
+	}
