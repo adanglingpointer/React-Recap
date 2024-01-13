@@ -223,3 +223,37 @@ export default function GameBoard() {
 			return updatedBoard;
 		});
 	}
+
+==========
+
+/* CSS Styling with CSS Modules */
+
+// we import CSS Modules as files
+import classes from "./Header.module.css";
+
+// conditional rendering with template literals
+<label className={`label ${emailNotValid ? 'invalid' : ''}`}>Email</label>
+
+==========
+
+/* CSS Styling with styled-components */
+//  npm install styled-components
+
+import { styled } from 'styled-components';
+
+// styled-components use tagged templates
+const ControlContainer = styled.div`
+	display: flex;
+	flex-direction: column;
+	gap: 0.5rem;
+	margin-bottom: 1.5rem;
+`
+
+// use as a component
+return (
+	<ControlContainer>
+		<p className="paragraph">
+			Text
+		</p>
+	</ControlContainer>
+);
