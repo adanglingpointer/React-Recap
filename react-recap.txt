@@ -257,3 +257,62 @@ return (
 		</p>
 	</ControlContainer>
 );
+
+==========
+
+/* CSS Styling with Tailwind */
+//  npm install -D tailwindcss postcss autoprefixer
+//  npx tailwindcss init -p
+// These steps change over time, so refer to Tailwind docs for latest.
+// VScode has a Tailwind CSS IntelliSense plugin, for class name suggestions
+
+// Add the paths to all of your template files in your tailwind.config.js file
+// tailwind.config.js
+export default {
+	content: [
+		"./index.html",
+		"./src/**/*.{js,ts,jsx,tsc}",
+	],
+...
+
+// Add the @tailwind directives to your ./src/index.css file
+// index.css
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+// utilize the built-in Tailwind class names
+// Header.jsx
+import logo from '../assets/logo.png';
+
+export default function Header() {
+	return (
+		<header className="flex flex-col items-center mt-8 mb-16">
+			<img src={logo} alt="A canvas" />
+		</header>
+	);
+}
+
+==========
+
+/* Refs */
+
+import { useRef } from 'react';
+
+export default function Player() {
+	const playerName = useRef();
+
+	const [enteredPlayerName, setEnteredPlayerName] = useState(null);
+
+	function handleClick() {
+		setEnteredPlayerName(playerName.current.value);
+	}
+
+	return (
+		<section id="player">
+			<h2>Welcome {enteredPlayerName ? enteredPlayerName : 'anonymous'}</h2>
+			<input ref={playerName} type="text" />
+			<button onClick={handleClick}>Set Name</button>
+		</section>
+	);
+}
