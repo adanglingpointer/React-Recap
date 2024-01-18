@@ -310,9 +310,101 @@ export default function Player() {
 
 	return (
 		<section id="player">
-			<h2>Welcome {enteredPlayerName ? enteredPlayerName : 'anonymous'}</h2>
+			<h2>Welcome {enteredPlayerName ?? 'anonymous'}</h2>
 			<input ref={playerName} type="text" />
 			<button onClick={handleClick}>Set Name</button>
 		</section>
 	);
 }
+
+==========
+
+/* Forwarding Refs to custom components */
+
+// TimerChallenge.jsx
+import { useRef } from 'react';
+import ResultModal from './ResultModal.jsx';
+
+export default function TimerChallenger({ title, targetTime }) {
+	const dialog = useRef();
+
+	function handleStart() {
+		dialog.current.showModal();
+	}
+
+	return (
+		<>
+			<ResultModal ref={dialog} result="lost" />
+		</>
+	);
+}
+
+// ResultModal.jsx
+import { forwardRef } from 'react';
+
+const ResultModal = forwardRef(function ResultModal({ propsDestructured }, ref) {
+	return (
+		<dialog ref={ref} className="result-modal">
+			<h2>You {result}</h2>
+		</dialog>
+	);
+})
+
+export default ResultModal;
+
+==========
+
+/* useImperativeHandle */
+// We'll need a seperate ref for reaching out to the dialog, in order to detach the dialog element
+//  from any other outer components
+
+// ResultModal.jsx
+import { forwardRef, useImperativeHandle, useRef } from 'react';
+
+const ResultModal = forwardRef(function ResultModal({ propsDestructured }, ref) {
+	const dialog = useRef();
+
+	useImperativeHandle(ref, () => {
+		return {
+			open() {
+				dialog.current.showModal();
+			}
+		};
+	});
+
+	return (
+		<dialog ref={dialog} className="result-modal">
+			<h2>You {result}</h2>
+		</dialog>
+	);
+}
+
+// TimerChallenge.jsx
+import { useRef } from 'react';
+import ResultModal from './ResultModal.jsx';
+
+export default function TimerChallenger({ title, targetTime }) {
+	const dialog = useRef();
+
+	function handleStart() {
+		dialog.current.open();
+	}
+
+	return (
+		<>
+			<ResultModal ref={dialog} result="lost" />
+		</>
+	);
+}
+
+==========
+
+/* Context API */
+
+// sharing data across components
+
+// create a new folder titled 'store' to keep context values/files
+//  the state store for the app
+//  not required, just a convention
+
+// shopping-cart-context.jsx
