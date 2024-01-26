@@ -407,47 +407,90 @@ export default function TimerChallenger({ title, targetTime }) {
 //  the state store for the app
 //  not required, just a convention
 
-// shopping-cart-context.jsx
+// Contexts.js
 import { createContext } from 'react';
 
-export const CartContext = createContext({
-	items: []
-});
+export const ThemeContext = createContext('light');
+export const AuthContext = createContext(null);
 
 
-// Cart.jsx
-import { useContext } from 'react';
-import { CartContext } from '../store/shopping-cart-context.jsx';
+// Button.js
+import { ThemeContext } from './Contexts.js';
 
-export default function Cart({ onUpdateItemQuantity }) {
-	const { items } = useContext(CartContext);
-
-	const totalPrice = items.reduce(
-		(acc, item) => acc + item.price * item.quantity,
-		0
-	);
-	const formattedTotalPrice = `$${totalPrice.toFixed(2)}`;
-
-	return (
-		<div id="cart">
-			{items.length === 0 && <p>No items in cart!</p>}
-		</div>
-	);
+function Button() {
+  const theme = useContext(ThemeContext);
+  // ...
 }
 
 
-// App.jsx
-import { CartContext } from '../store/shopping-cart-context.jsx';
+// App.js
+import { ThemeContext, AuthContext } from './Contexts.js';
 
 function App() {
-	const [shoppingCart, setShoppingCart] = useState({
-		items: [],
-	});
+  // ...
+  return (
+    <ThemeContext.Provider value={theme}>
+      <AuthContext.Provider value={currentUser}>
+        <Page />
+      </AuthContext.Provider>
+    </ThemeContext.Provider>
+  );
+}
 
-...
+==========
 
-return (
-	<CartContext.Provider value={shoppingCart}>
-		<Header cart={shoppingCart} />
-	</CartContext.Provider>
-);
+useReducer - another state management tool
+'useReducer is a React Hook that lets you add a reducer to your component.'
+useReducer is a hook that allows you to manage complex state logic in functional components.
+useReducer is useful when you have a state that depends on multiple sub-values, or when the next state depends on the previous one.
+
+
+import { useReducer } from 'react';
+
+function reducer(state, action) {
+  switch (action.type) {
+    case 'incremented_age': {
+      return {
+        name: state.name,
+        age: state.age + 1
+      };
+    }
+    case 'changed_name': {
+      return {
+        name: action.nextName,
+        age: state.age
+      };
+    }
+  }
+  throw Error('Unknown action: ' + action.type);
+}
+
+const initialState = { name: 'Taylor', age: 42 };
+
+export default function Form() {
+  const [state, dispatch] = useReducer(reducer, initialState);
+
+  function handleButtonClick() {
+    dispatch({ type: 'incremented_age' });
+  }
+
+  function handleInputChange(e) {
+    dispatch({
+      type: 'changed_name',
+      nextName: e.target.value
+    }); 
+  }
+
+  return (
+    <>
+      <input
+        value={state.name}
+        onChange={handleInputChange}
+      />
+      <button onClick={handleButtonClick}>
+        Increment age
+      </button>
+      <p>Hello, {state.name}. You are {state.age}.</p>
+    </>
+  );
+}
