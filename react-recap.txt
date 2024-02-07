@@ -192,6 +192,8 @@ return (
 
 /* Updating state based on old state */
 
+const [isEditing, setIsEditing] = useState(false);
+
 // the wrong way, this schedules an update but doesn't guarantee latest state
 setIsEditing(!isEditing);
 
@@ -439,7 +441,9 @@ function App() {
 
 ==========
 
-useReducer - another state management tool
+/* useReducer */
+ - another state management tool
+
 'useReducer is a React Hook that lets you add a reducer to your component.'
 useReducer is a hook that allows you to manage complex state logic in functional components.
 useReducer is useful when you have a state that depends on multiple sub-values, or when the next state depends on the previous one.
@@ -494,3 +498,49 @@ export default function Form() {
     </>
   );
 }
+
+==========
+
+/* useEffect */
+// prevents infinite loops
+
+// runs at the end of (after) the app component execution, only reruns if the dependencies change
+
+import { useRef } from 'react';
+
+useEffect(() => {
+	// code
+
+	// cleanup:
+	return () => {
+		// cleanup code
+	}
+}, [dependencies]);
+
+// omitting the dependencies completely causes it to rerun every app cycle
+// leaving an empty dependency array [] causes the effect to only ever run once
+
+// For example:
+
+useEffect(() => {
+	const timer = setTimeout(() => {
+		onConfirm();
+	}, 3000);
+
+	return () => {
+		clearTimeout(timer);
+	}
+}, []);
+
+
+/* When using a function as a dependency, you can create an infinite loop
+    because functions are objects, and two objects even with the name contents are !=
+   This is where useCallback comes into play */
+
+import { useEffect, useCallback } from 'react';
+
+const whatEver = useCallback(function whatEver() {
+//..
+}, []);
+
+// Now the function will not be recreated in memory
