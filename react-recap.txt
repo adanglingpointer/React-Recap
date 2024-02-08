@@ -1,3 +1,13 @@
+/* 
+
+Legacy React projects start with npm start
+
+The "start" command for vite projects is npm run dev
+
+ */
+
+==========
+
 /* We import images in React */
 
 import reactImg from './assets/react-core-concepts.png';
@@ -544,3 +554,35 @@ const whatEver = useCallback(function whatEver() {
 }, []);
 
 // Now the function will not be recreated in memory
+
+==========
+
+/* Avoiding component function executions with memo */
+
+import { memo } from 'react';
+
+const Counter = memo(function Counter({ initialCount }){
+// ...
+})
+
+export default Counter;
+
+/* memo() compares prop values before re-rendering.
+    memo() only prevents function executions that are triggered by the parent component (i.e. App component) */
+
+==========
+
+/* useMemo prevents re-execution of functions within components */
+
+import { memo, useMemo } from 'react';
+
+
+const Counter = memo(function Counter({ initialCount }){
+	//const initialCountIsPrime = isPrime(initialCount);
+	const initialCountIsPrime = useMemo(() => isPrime(initialCount), [initialCount]);
+})
+
+export default Counter;
+
+/* function will only execute if dependencies within array change.
+    an empty array means it will never re-execute */
