@@ -1,10 +1,21 @@
-/* 
+/*****
+Creating and running React apps
 
-Legacy React projects start with npm start
+create-react-app is one popular option.
+	npx create-react-app my-app
+	cd my-app
+	npm start
 
-The "start" command for vite projects is npm run dev
+vite is another popular option.
+	npm create vite@latest react-project
+	cd react-project
+	npm install
+	npm run dev
 
- */
+million.js is a library to incorporate in a React app to increase performance by up to 70%
+*****/
+
+
 
 ==========
 
