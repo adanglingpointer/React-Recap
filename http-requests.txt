@@ -1,0 +1,48 @@
+/* a basic http request using fetch */
+
+useEffect(() => {
+	fetch('http://localhost:3000/places')
+		.then((response) => {
+			return response.json();
+		})
+		.then((resData) => {
+			setAvailablePlaces(resData.places);
+		});
+}, []);
+
+// this works fine, but there's a smaller, more elegant method: using async/await.
+// be careful, however, as you can not turn a React function (i.e. useEffect) into async
+
+/* using async/await */
+
+useEffect(() => {
+	async function fetchPlaces() {
+		const response = await fetch('http://localhost:3000/places');
+		const resData = await response.json();
+		setAvailablePlaces(resData.places);
+	}
+	fetchPlaces();
+}, []);
+
+// this is cleaner, but we still need to account for errors..
+
+/* using try/catch */
+
+useEffect(() => {
+	async function fetchPlaces() {
+		setIsFetching(true);
+		try {
+			const response = await fetch('http://localhost:3000/places');
+			const resData = await response.json();
+			if (!response.ok) {
+				throw new Error('Failed to fetch');
+			}
+		} catch (error) {
+			setError(error);
+		}
+
+		setAvailablePlaces(resData.places);
+		setIsFetching(false);
+	}
+	fetchPlaces();
+}, []);
