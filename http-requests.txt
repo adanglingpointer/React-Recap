@@ -37,12 +37,43 @@ useEffect(() => {
 			if (!response.ok) {
 				throw new Error('Failed to fetch');
 			}
+			setAvailablePlaces(resData.places);
 		} catch (error) {
 			setError(error);
 		}
 
-		setAvailablePlaces(resData.places);
 		setIsFetching(false);
 	}
 	fetchPlaces();
 }, []);
+
+==========
+
+/* sending data with post request */
+
+// App.jsx
+try {
+	await updateUserPlaces([selectedPlace, ...userPlaces]);
+} catch (error) {
+	// ...
+}
+
+
+// http.js
+export async function updateUserPlaces(places) {
+	const response = await fetch('http://localhost:3000/user-places', {
+		method: 'PUT',
+		body: JSON.stringify(places),
+		headers: {
+			'Content-Type': 'application/json'
+		}
+	});
+
+	const resData = await response.json();
+
+	if (!response.ok) {
+		throw new Error('Failed to update user data.');
+	}
+
+	return resData.message;
+}
