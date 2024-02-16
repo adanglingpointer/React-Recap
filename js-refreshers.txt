@@ -1,0 +1,17 @@
+userPlaces.filter((places) => place.id !== selectedPlace.current.id)
+
+This Javascript/React code is using the filter method to create a new array of userPlaces that do not match the id of the selectedPlace.current. The filter method takes a callback function that returns a boolean value for each element of the original array. If the callback returns true, the element is kept in the new array. If the callback returns false, the element is discarded. In this case, the callback function is an arrow function that compares the place.id with the selectedPlace.current.id using the strict inequality operator (!==). This means that only the places that have a different id from the selected place will be included in the new array. The new array is then returned by the filter method.
+
+This code could be used to filter out the selected place from a list of user places, for example, to show only the other places on a map or a table.
+
+-
+
+if (prevPickedPlaces.some((place) => place.id === selectedPlace.id)) {
+	return prevPickedPlaces;
+}
+
+This Javascript/React code is using the some method to check if the prevPickedPlaces array contains any element that has the same id as the selectedPlace. The some method takes a callback function that returns a boolean value for each element of the array. If the callback returns true for any element, the some method returns true as well. If the callback returns false for all elements, the some method returns false. In this case, the callback function is an arrow function that compares the place.id with the selectedPlace.id using the strict equality operator (===). This means that the some method will return true if there is at least one place in the prevPickedPlaces array that has the same id as the selectedPlace, and false otherwise.
+
+The code then uses an if statement to conditionally return the prevPickedPlaces array. If the some method returns true, the if statement executes the return statement and exits the function. If the some method returns false, the if statement does nothing and the function continues to execute.
+
+This code could be used to prevent adding a duplicate place to the prevPickedPlaces array, for example, by returning the array unchanged if the selected place is already in it.
