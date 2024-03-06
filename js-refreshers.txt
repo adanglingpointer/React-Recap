@@ -15,3 +15,11 @@ This Javascript/React code is using the some method to check if the prevPickedPl
 The code then uses an if statement to conditionally return the prevPickedPlaces array. If the some method returns true, the if statement executes the return statement and exits the function. If the some method returns false, the if statement does nothing and the function continues to execute.
 
 This code could be used to prevent adding a duplicate place to the prevPickedPlaces array, for example, by returning the array unchanged if the selected place is already in it.
+
+-
+
+To copy an object as a new object (rather than just a reference):
+var secondPerson = Object.assign({}, firstPerson);
+
+To copy an array as a new array:
+var myHobbies = person.hobbies.slice();
