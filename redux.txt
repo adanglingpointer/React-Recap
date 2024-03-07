@@ -76,3 +76,28 @@ const Counter = () => {
 };
 
 export default Counter;
+
+--
+
+When we use createSlice() from redux toolkit, we can mutate state:
+
+createSlice({
+  name: "counter",
+  initialState,
+  reducers: {
+    increment(state) {
+      state.counter++;
+    },
+  },
+});
+
+Otherwise, we should not.  We return a new state object instead.
+
+const counterReducer = (state = initialState, action) => {
+  if (action.type === "increment") {
+    return {
+      counter: state.counter + 1,
+      showCounter: state.showCounter,
+    };
+  }
+}
