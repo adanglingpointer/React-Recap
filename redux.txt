@@ -101,3 +101,63 @@ const counterReducer = (state = initialState, action) => {
     };
   }
 }
+
+===
+
+To use multiple slices:
+
+// ./store/index.js
+
+import { configureStore } from "@reduxjs/toolkit";
+
+import uiSlice from "./ui-slice";
+
+const store = configureStore({
+  reducer: { ui: uiSlice.reducer },
+});
+
+export default store;
+
+--
+
+// ui-slice.js
+
+import { createSlice } from "@reduxjs/toolkit";
+
+const uiSlice = createSlice({
+  name: "ui",
+  initialState: { cartIsVisible: false },
+  reducers: {
+    toggle(state) {
+      state.cartIsVisible = !state.cartIsVisible;
+    },
+  },
+});
+
+export const uiActions = uiSlice.actions;
+
+export default uiSlice;
+
+
+--
+
+// App.js
+
+import { useSelector } from "react-redux";
+
+import Cart from "./components/Cart/Cart";
+import Layout from "./components/Layout/Layout";
+import Products from "./components/Shop/Products";
+
+function App() {
+  const showCart = useSelector((state) => state.ui.cartIsVisible);
+
+  return (
+    <Layout>
+      {showCart && <Cart />}
+      <Products />
+    </Layout>
+  );
+}
+
+export default App;
