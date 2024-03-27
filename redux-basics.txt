@@ -1,0 +1,31 @@
+const redux = require('redux');
+	This is how we require in a NodeJS project (not React).
+
+const counterReducer = (state = { counter: 0 }, action) => {
+	return {
+		counter: state.counter + 1
+	};
+};
+
+	We initialize state here, which only is defined if state doesn't already exist. Otherwise it's undefined 	when we run the subscriber for the first time.
+
+const store = redux.createStore(counterReducer);
+	We create the store, which asks for the reducer that will manipulate it.
+
+console.log(store.getState());
+	This will console log:
+	{ counter: 1 }
+	because the counterReducer will run once during initialization, and currently it's always returning +1.
+
+const counterSubscriber = () => {
+	const latestState = store.getState();
+	console.log(latestState);
+};
+
+	The subscriber is a function.
+
+store.subscribe(counterSubscriber);
+	We subscribe to the store with our counterSubscriber.
+
+store.dispatch({ type: 'increment' });
+	In this example, it doesn't matter the dispatch action type, because we always return the counter.
