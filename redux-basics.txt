@@ -29,3 +29,10 @@ store.subscribe(counterSubscriber);
 
 store.dispatch({ type: 'increment' });
 	In this example, it doesn't matter the dispatch action type, because we always return the counter.
+
+==
+
+never mutate state in redux.  instead always return a brand new state object
+i.e.	state.counter++;
+	wrong!!!
+
