@@ -1,0 +1,14 @@
+React Deployment Steps
+
+ - Test code
+	- Manually and with automated tests
+ - Optimize code
+	- Optimize user experience and performance
+	- Lazy loading
+ - Build app
+	- Run build process to parse, transform and optimize code
+		npm run build
+ - Upload app
+	- Upload production code to hosting server
+ - Configure server
+	- Ensure app is served securely and as intended
